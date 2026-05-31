@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منهج الأردوينو — المستوى الثاني | Sunshine T Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@400;700;900&family=Orbitron:wght@700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+
+/* =============================================
+   RESET & BASE
+   ============================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+
+body {
+  background: #060810;
+  color: #e8eaf6;
+  font-family: 'Cairo', sans-serif;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* =============================================
+   DESIGN TOKENS
+   ============================================= */
+:root {
+  --gold:    #f5c518;
+  --gold2:   #e8a800;
+  --gold3:   #ffd96a;
+  --teal:    #00d2a0;
+  --blue:    #38bdf8;
+  --purple:  #a78bfa;
+  --orange:  #fb923c;
+  --red:     #f87171;
+  --green:   #4ade80;
+  --pink:    #f472b6;
+  --cyan:    #22d3ee;
+
+  --bg:      #060810;
+  --bg2:     #0d1117;
+  --card:    #111827;
+  --card2:   #1a2235;
+  --border:  rgba(245,197,24,0.12);
+  --white:   #f0f4ff;
+  --muted:   #6b7280;
+
+  --r: 16px;
+  --r2: 24px;
+  --r3: 32px;
+}
+
+/* =============================================
+   UTILITY
+   ============================================= */
+.text-gold   { color: var(--gold); }
+.text-teal   { color: var(--teal); }
+.text-blue   { color: var(--blue); }
+.text-purple { color: var(--purple); }
+.text-orange { color: var(--orange); }
+.text-green  { color: var(--green); }
+.text-pink   { color: var(--pink); }
+.text-muted  { color: var(--muted); }
+
+/* =============================================
+   FIXED BACKGROUND
+   ============================================= */
+.bg-fixed {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+}
+.bg-gradient {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 90% 50% at 50% -5%,  rgba(245,197,24,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 0%   70%,  rgba(0,210,160,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 100% 30%,  rgba(167,139,250,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 30% at 80%  90%,  rgba(56,189,248,0.04) 0%, transparent 50%);
+}
+.bg-dots {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(245,197,24,0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.bg-lines {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(245,197,24,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,197,24,0.02) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+/* =============================================
+   SCROLL INDICATOR (top rainbow bar)
+   ============================================= */
+.rainbow-bar {
+  position: fixed; top: 0; left: 0; right: 0; height: 4px; z-index: 9999;
+  background: linear-gradient(90deg,
+    var(--gold), var(--orange), var(--red), var(--pink),
+    var(--purple), var(--blue), var(--cyan), var(--teal), var(--green), var(--gold));
+  background-size: 200% 100%;
+  animation: rainbow-slide 4s linear infinite;
+}
+@keyframes rainbow-slide { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
+
+/* =============================================
+   MAIN WRAPPER
+   ============================================= */
+.page {
+  position: relative; z-index: 1;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px 80px;
+}
+
+/* =============================================
+   HERO HEADER
+   ============================================= */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 100px 20px 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative circuit lines */
+.hero::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background-image:
+    linear-gradient(rgba(245,197,24,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,197,24,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: grid-move 20s linear infinite;
+}
+@keyframes grid-move { 0%{background-position:0 0} 100%{background-position:40px 40px} }
+
+.academy-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 8px 22px;
+  background: rgba(245,197,24,0.08);
+  border: 1px solid rgba(245,197,24,0.25);
+  border-radius: 100px;
+  font-size: 0.8rem; font-weight: 700; color: var(--gold);
+  letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 28px;
+  animation: fadeDown 0.8s ease both;
+}
+@keyframes fadeDown {
+  from { opacity:0; transform: translateY(-20px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+.hero-logo {
+  width: 100px; height: 100px; border-radius: 22px;
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.8rem; margin: 0 auto 32px;
+  box-shadow: 0 0 60px rgba(245,197,24,0.4), 0 0 120px rgba(245,197,24,0.15);
+  animation: logo-float 3s ease-in-out infinite, fadeDown 1s ease 0.1s both;
+  flex-shrink: 0;
+}
+@keyframes logo-float {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%       { transform: translateY(-12px) rotate(2deg); }
+}
+
+.level-tag {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(0.7rem, 2vw, 0.9rem);
+  font-weight: 900; color: var(--teal);
+  letter-spacing: 4px; text-transform: uppercase;
+  margin-bottom: 12px;
+  animation: fadeDown 1s ease 0.2s both;
+}
+
+.hero-title {
+  font-family: 'Tajawal', sans-serif;
+  font-size: clamp(2.4rem, 7vw, 4.5rem);
+  font-weight: 900; line-height: 1.1;
+  margin-bottom: 16px;
+  animation: fadeUp 1s ease 0.3s both;
+}
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(40px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+.hero-title .line1 { display: block; color: var(--white); }
+.hero-title .line2 {
+  display: block; color: var(--gold);
+  text-shadow: 0 0 40px rgba(245,197,24,0.5);
+}
+
+.hero-subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: var(--muted); max-width: 580px; margin: 0 auto 40px;
+  animation: fadeUp 1s ease 0.4s both;
+}
+.hero-subtitle .hl { color: var(--teal); font-weight: 700; }
+
+/* STATS ROW */
+.stats-row {
+  display: flex; gap: 0; flex-wrap: wrap; justify-content: center;
+  background: rgba(17,24,39,0.8);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  overflow: hidden;
+  animation: fadeUp 1s ease 0.5s both;
+  margin-bottom: 48px;
+}
+.stat-item {
+  flex: 1; min-width: 120px; padding: 24px 20px; text-align: center;
+  position: relative;
+}
+.stat-item:not(:last-child)::after {
+  content: '';
+  position: absolute; right: 0; top: 20%; bottom: 20%;
+  width: 1px; background: var(--border);
+}
+.stat-num {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(1.4rem, 4vw, 2.2rem);
+  font-weight: 900; display: block; line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-label { font-size: 0.78rem; color: var(--muted); font-weight: 600; }
+
+/* SCROLL CTA */
+.scroll-hint {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  color: var(--muted); font-size: 0.78rem;
+  animation: bounce-hint 2s ease-in-out infinite;
+}
+@keyframes bounce-hint {
+  0%,100%{ transform: translateY(0); }
+  50%    { transform: translateY(8px); }
+}
+.scroll-arrow { font-size: 1.2rem; }
+
+/* =============================================
+   SECTION SHARED
+   ============================================= */
+section { padding: 80px 0; }
+
+.section-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.72rem; font-weight: 800; letter-spacing: 3px;
+  text-transform: uppercase; padding: 5px 16px; border-radius: 100px;
+  margin-bottom: 12px; border: 1px solid;
+}
+.section-eyebrow.gold   { color: var(--gold);   background: rgba(245,197,24,0.08);   border-color: rgba(245,197,24,0.25); }
+.section-eyebrow.teal   { color: var(--teal);   background: rgba(0,210,160,0.08);    border-color: rgba(0,210,160,0.25); }
+.section-eyebrow.blue   { color: var(--blue);   background: rgba(56,189,248,0.08);   border-color: rgba(56,189,248,0.25); }
+.section-eyebrow.purple { color: var(--purple); background: rgba(167,139,250,0.08);  border-color: rgba(167,139,250,0.25); }
+.section-eyebrow.orange { color: var(--orange); background: rgba(251,146,60,0.08);   border-color: rgba(251,146,60,0.25); }
+
+.section-title {
+  font-family: 'Tajawal', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 900; line-height: 1.2; margin-bottom: 12px;
+}
+.section-desc {
+  font-size: 1rem; color: var(--muted);
+  max-width: 600px; line-height: 1.75;
+}
+
+/* =============================================
+   PHILOSOPHY CARDS
+   ============================================= */
+.philosophy-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  margin-top: 48px;
+}
+.phil-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r2); padding: 28px 22px;
+  position: relative; overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.phil-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  opacity: 0; transition: opacity 0.3s;
+}
+.phil-card:nth-child(1)::before { background: linear-gradient(90deg, var(--gold), var(--orange)); }
+.phil-card:nth-child(2)::before { background: linear-gradient(90deg, var(--teal), var(--blue)); }
+.phil-card:nth-child(3)::before { background: linear-gradient(90deg, var(--purple), var(--pink)); }
+.phil-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+.phil-card:hover::before { opacity: 1; }
+
+.phil-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem; margin-bottom: 16px;
+}
+.phil-card:nth-child(1) .phil-icon { background: rgba(245,197,24,0.12); }
+.phil-card:nth-child(2) .phil-icon { background: rgba(0,210,160,0.12); }
+.phil-card:nth-child(3) .phil-icon { background: rgba(167,139,250,0.12); }
+
+.phil-title { font-size: 1rem; font-weight: 800; margin-bottom: 8px; }
+.phil-desc  { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+
+/* =============================================
+   CURRICULUM TIMELINE
+   ============================================= */
+.timeline { position: relative; margin-top: 64px; }
+.timeline::before {
+  content: '';
+  position: absolute; right: 22px; top: 0; bottom: 0; width: 2px;
+  background: linear-gradient(to bottom, var(--gold), var(--teal), var(--purple), var(--blue));
+  opacity: 0.3;
+}
+
+.lecture-block {
+  display: grid; grid-template-columns: 1fr 60px;
+  gap: 0; margin-bottom: 32px;
+  animation: slide-in 0.6s ease both;
+}
+@keyframes slide-in {
+  from { opacity:0; transform: translateX(30px); }
+  to   { opacity:1; transform: translateX(0); }
+}
+
+.lecture-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r2) 0 0 var(--r2); /* RTL: right corners rounded */
+  padding: 24px 28px; position: relative; overflow: hidden;
+  margin-left: 2px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.lecture-card:hover { box-shadow: 0 8px 40px rgba(0,0,0,0.4); }
+
+/* Top accent per color theme */
+.lecture-card::after {
+  content: ''; position: absolute; top: 0; right: 0; left: 0; height: 2px;
+}
+.lc-gold   { border-top-color: transparent; }
+.lc-gold .lecture-card::after   { background: linear-gradient(90deg, transparent, var(--gold)); }
+.lc-teal   .lecture-card::after { background: linear-gradient(90deg, transparent, var(--teal)); }
+.lc-blue   .lecture-card::after { background: linear-gradient(90deg, transparent, var(--blue)); }
+.lc-purple .lecture-card::after { background: linear-gradient(90deg, transparent, var(--purple)); }
+.lc-orange .lecture-card::after { background: linear-gradient(90deg, transparent, var(--orange)); }
+.lc-pink   .lecture-card::after { background: linear-gradient(90deg, transparent, var(--pink)); }
+.lc-green  .lecture-card::after { background: linear-gradient(90deg, transparent, var(--green)); }
+.lc-cyan   .lecture-card::after { background: linear-gradient(90deg, transparent, var(--cyan)); }
+.lc-red    .lecture-card::after { background: linear-gradient(90deg, transparent, var(--red)); }
+
+.lc-gold:hover   .lecture-card { border-color: rgba(245,197,24,0.4); }
+.lc-teal:hover   .lecture-card { border-color: rgba(0,210,160,0.4); }
+.lc-blue:hover   .lecture-card { border-color: rgba(56,189,248,0.4); }
+.lc-purple:hover .lecture-card { border-color: rgba(167,139,250,0.4); }
+.lc-orange:hover .lecture-card { border-color: rgba(251,146,60,0.4); }
+.lc-pink:hover   .lecture-card { border-color: rgba(244,114,182,0.4); }
+.lc-green:hover  .lecture-card { border-color: rgba(74,222,128,0.4); }
+.lc-cyan:hover   .lecture-card { border-color: rgba(34,211,238,0.4); }
+.lc-red:hover    .lecture-card { border-color: rgba(248,113,113,0.4); }
+
+.lecture-num-col {
+  display: flex; flex-direction: column; align-items: center;
+  padding-top: 24px; gap: 0;
+}
+.lecture-dot {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Orbitron', monospace; font-size: 0.75rem; font-weight: 900;
+  border: 2px solid; flex-shrink: 0; position: relative; z-index: 1;
+  background: var(--bg2);
+}
+.lc-gold   .lecture-dot { color: var(--gold);   border-color: var(--gold); }
+.lc-teal   .lecture-dot { color: var(--teal);   border-color: var(--teal); }
+.lc-blue   .lecture-dot { color: var(--blue);   border-color: var(--blue); }
+.lc-purple .lecture-dot { color: var(--purple); border-color: var(--purple); }
+.lc-orange .lecture-dot { color: var(--orange); border-color: var(--orange); }
+.lc-pink   .lecture-dot { color: var(--pink);   border-color: var(--pink); }
+.lc-green  .lecture-dot { color: var(--green);  border-color: var(--green); }
+.lc-cyan   .lecture-dot { color: var(--cyan);   border-color: var(--cyan); }
+.lc-red    .lecture-dot { color: var(--red);    border-color: var(--red); }
+
+.lec-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
+.lec-em { font-size: 2rem; flex-shrink: 0; line-height: 1; }
+.lec-info { flex: 1; }
+.lec-type {
+  font-size: 0.68rem; font-weight: 800; letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 4px; display: block;
+}
+.lec-title { font-size: 1.1rem; font-weight: 800; color: var(--white); line-height: 1.3; }
+.lec-subtitle { font-size: 0.82rem; color: var(--muted); margin-top: 3px; }
+
+.lec-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.tag {
+  font-size: 0.68rem; font-weight: 700; padding: 3px 10px;
+  border-radius: 100px; border: 1px solid;
+}
+.tag-gold   { color: var(--gold);   background: rgba(245,197,24,0.08);  border-color: rgba(245,197,24,0.2); }
+.tag-teal   { color: var(--teal);   background: rgba(0,210,160,0.08);   border-color: rgba(0,210,160,0.2); }
+.tag-blue   { color: var(--blue);   background: rgba(56,189,248,0.08);  border-color: rgba(56,189,248,0.2); }
+.tag-purple { color: var(--purple); background: rgba(167,139,250,0.08); border-color: rgba(167,139,250,0.2); }
+.tag-orange { color: var(--orange); background: rgba(251,146,60,0.08);  border-color: rgba(251,146,60,0.2); }
+.tag-green  { color: var(--green);  background: rgba(74,222,128,0.08);  border-color: rgba(74,222,128,0.2); }
+.tag-pink   { color: var(--pink);   background: rgba(244,114,182,0.08); border-color: rgba(244,114,182,0.2); }
+.tag-cyan   { color: var(--cyan);   background: rgba(34,211,238,0.08);  border-color: rgba(34,211,238,0.2); }
+.tag-red    { color: var(--red);    background: rgba(248,113,113,0.08); border-color: rgba(248,113,113,0.2); }
+
+.lec-desc { font-size: 0.88rem; color: #9ca3af; line-height: 1.7; margin-bottom: 14px; }
+
+.lec-skills {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.05);
+}
+.skill-pill {
+  font-size: 0.7rem; font-weight: 600; color: var(--muted);
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+  padding: 3px 10px; border-radius: 100px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* PRACTICAL badge */
+.practical-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(0,210,160,0.12); border: 1px solid rgba(0,210,160,0.3);
+  color: var(--teal); font-size: 0.68rem; font-weight: 800;
+  padding: 3px 10px; border-radius: 100px; letter-spacing: 1px;
+}
+.project-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(251,146,60,0.12); border: 1px solid rgba(251,146,60,0.3);
+  color: var(--orange); font-size: 0.68rem; font-weight: 800;
+  padding: 3px 10px; border-radius: 100px; letter-spacing: 1px;
+}
+.final-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(245,197,24,0.15); border: 1px solid rgba(245,197,24,0.4);
+  color: var(--gold); font-size: 0.72rem; font-weight: 800;
+  padding: 4px 12px; border-radius: 100px; letter-spacing: 1px;
+}
+
+/* =============================================
+   OVERVIEW TABLE (quick summary)
+   ============================================= */
+.overview-table {
+  width: 100%; border-collapse: collapse; margin-top: 40px;
+  background: var(--card); border-radius: var(--r2); overflow: hidden;
+  border: 1px solid var(--border);
+}
+.overview-table th {
+  background: var(--card2); padding: 14px 18px; text-align: right;
+  font-size: 0.78rem; font-weight: 800; color: var(--gold);
+  letter-spacing: 1px; text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+.overview-table td {
+  padding: 12px 18px; font-size: 0.85rem; border-bottom: 1px solid rgba(255,255,255,0.04);
+  vertical-align: middle;
+}
+.overview-table tr:last-child td { border-bottom: none; }
+.overview-table tr:hover td { background: rgba(255,255,255,0.02); }
+.lec-num-cell {
+  font-family: 'Orbitron', monospace; font-size: 0.75rem; font-weight: 700;
+  white-space: nowrap;
+}
+.lec-type-cell { white-space: nowrap; }
+
+/* =============================================
+   SKILLS GAINED
+   ============================================= */
+.skills-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+  margin-top: 48px;
+}
+.skill-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r2); padding: 24px;
+  display: flex; align-items: flex-start; gap: 16px;
+  transition: transform 0.3s, border-color 0.3s;
+}
+.skill-card:hover { transform: translateY(-4px); border-color: rgba(245,197,24,0.25); }
+.skill-icon-wrap {
+  width: 48px; height: 48px; border-radius: 12px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+}
+.skill-card:nth-child(1) .skill-icon-wrap { background: rgba(245,197,24,0.12); }
+.skill-card:nth-child(2) .skill-icon-wrap { background: rgba(0,210,160,0.12); }
+.skill-card:nth-child(3) .skill-icon-wrap { background: rgba(56,189,248,0.12); }
+.skill-card:nth-child(4) .skill-icon-wrap { background: rgba(167,139,250,0.12); }
+.skill-card:nth-child(5) .skill-icon-wrap { background: rgba(251,146,60,0.12); }
+.skill-card:nth-child(6) .skill-icon-wrap { background: rgba(244,114,182,0.12); }
+.skill-title { font-size: 0.95rem; font-weight: 800; margin-bottom: 6px; }
+.skill-list  { font-size: 0.8rem; color: var(--muted); line-height: 1.8; }
+.skill-list li { list-style: none; padding-right: 12px; position: relative; }
+.skill-list li::before { content: '→'; position: absolute; right: 0; color: var(--gold); }
+
+/* =============================================
+   PROJECTS HIGHLIGHTS
+   ============================================= */
+.projects-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px;
+}
+.project-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r2); padding: 24px; text-align: center;
+  position: relative; overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.project-card::before {
+  content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity 0.3s;
+}
+.project-card:nth-child(1)::before { background: radial-gradient(ellipse at center, rgba(0,210,160,0.06), transparent); }
+.project-card:nth-child(2)::before { background: radial-gradient(ellipse at center, rgba(245,197,24,0.06), transparent); }
+.project-card:nth-child(3)::before { background: radial-gradient(ellipse at center, rgba(167,139,250,0.06), transparent); }
+.project-card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
+.project-card:hover::before { opacity: 1; }
+.project-em { font-size: 3rem; display: block; margin-bottom: 14px; }
+.project-title { font-size: 1rem; font-weight: 800; margin-bottom: 8px; }
+.project-desc  { font-size: 0.8rem; color: var(--muted); line-height: 1.65; }
+.project-components {
+  margin-top: 14px; display: flex; flex-wrap: wrap; gap: 4px; justify-content: center;
+}
+.pc { font-size: 0.65rem; padding: 2px 8px; border-radius: 100px; border: 1px solid; }
+
+/* =============================================
+   FINAL PROJECT SHOWCASE
+   ============================================= */
+.final-project {
+  background: linear-gradient(135deg, rgba(26,34,53,0.9), rgba(17,24,39,0.9));
+  border: 1px solid rgba(245,197,24,0.3);
+  border-radius: var(--r3); padding: 48px 40px;
+  margin-top: 60px; position: relative; overflow: hidden;
+  text-align: center;
+}
+.final-project::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--teal), var(--purple), var(--gold));
+  background-size: 200% 100%; animation: rainbow-slide 3s linear infinite;
+}
+.final-project::after {
+  content: 'FINAL PROJECT';
+  position: absolute; bottom: -20px; right: 20px;
+  font-family: 'Orbitron', monospace; font-size: 5rem; font-weight: 900;
+  color: rgba(245,197,24,0.04); letter-spacing: 4px; white-space: nowrap;
+}
+.fp-label {
+  font-family: 'Orbitron', monospace; font-size: 0.75rem; font-weight: 900;
+  color: var(--gold); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px;
+}
+.fp-title {
+  font-family: 'Tajawal', sans-serif; font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 900; color: var(--white); margin-bottom: 12px;
+}
+.fp-subtitle { font-size: 1rem; color: var(--muted); margin-bottom: 32px; }
+
+.fp-components {
+  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 28px;
+}
+.fp-comp {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 100px; padding: 7px 16px; font-size: 0.82rem; font-weight: 600;
+}
+.fp-comp span { font-size: 1rem; }
+
+.fp-desc {
+  font-size: 0.92rem; color: #9ca3af; max-width: 600px; margin: 0 auto; line-height: 1.75;
+}
+
+/* =============================================
+   CERTIFICATE SECTION
+   ============================================= */
+.cert-section {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r3); padding: 48px 40px; text-align: center;
+  position: relative; overflow: hidden;
+}
+.cert-section::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold3), var(--gold));
+}
+.cert-icon { font-size: 4rem; margin-bottom: 16px; display: block; }
+.cert-title { font-family: 'Tajawal', sans-serif; font-size: 2rem; font-weight: 900; margin-bottom: 8px; }
+.cert-desc { font-size: 0.95rem; color: var(--muted); max-width: 560px; margin: 0 auto 28px; line-height: 1.75; }
+.cert-details {
+  display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 28px;
+}
+.cert-detail {
+  background: var(--card2); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 14px 22px; text-align: center;
+  min-width: 140px;
+}
+.cert-d-label { font-size: 0.72rem; color: var(--muted); margin-bottom: 4px; }
+.cert-d-val   { font-size: 0.95rem; font-weight: 800; color: var(--gold); }
+
+/* =============================================
+   CONTACT FOOTER
+   ============================================= */
+.contact-footer {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r3); padding: 48px 40px;
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 32px; align-items: center;
+}
+.cf-title { font-family: 'Tajawal', sans-serif; font-size: 1.6rem; font-weight: 900; margin-bottom: 8px; }
+.cf-sub   { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+.cf-contacts { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.cf-contact {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 18px; border-radius: 100px;
+  font-size: 0.88rem; font-weight: 700;
+  text-decoration: none; transition: transform 0.2s;
+}
+.cf-contact:hover { transform: translateX(-4px); }
+.cf-contact.wa  { background: rgba(37,211,102,0.12); border: 1px solid rgba(37,211,102,0.3); color: #25d366; }
+.cf-contact.fb  { background: rgba(24,119,242,0.12); border: 1px solid rgba(24,119,242,0.3); color: #1877f2; }
+
+/* =============================================
+   PRINT STYLES
+   ============================================= */
+@media print {
+  .rainbow-bar { display: none; }
+  body { background: #ffffff; color: #111; }
+  .bg-fixed, .bg-gradient, .bg-dots, .bg-lines { display: none; }
+  .hero { min-height: auto; padding: 40px 20px; background: #f8f9ff; border-radius: 16px; margin-bottom: 20px; }
+  section { padding: 30px 0; }
+  .lecture-card { background: #f8f9ff; border: 1px solid #e5e7eb; }
+  .phil-card, .skill-card, .project-card { background: #f8f9ff; border: 1px solid #e5e7eb; }
+  .final-project, .cert-section, .contact-footer, .overview-table { background: #f8f9ff; border: 1px solid #e5e7eb; }
+  .hero-title .line1, .section-title, .fp-title, .cf-title, .cert-title, .phil-title, .skill-title, .project-title { color: #111; }
+  .stat-num, .text-gold { color: #b45309; }
+  .text-teal  { color: #0d9488; }
+  .text-blue  { color: #0284c7; }
+  .text-purple{ color: #7c3aed; }
+  .section-desc, .lec-desc, .skill-list, .project-desc, .cert-desc, .cf-sub, .fp-desc, .fp-subtitle { color: #4b5563; }
+  .stat-label, .text-muted, .lec-subtitle { color: #6b7280; }
+  .hero-title .line2 { color: #b45309; text-shadow: none; }
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 768px) {
+  .philosophy-grid  { grid-template-columns: 1fr; }
+  .skills-grid      { grid-template-columns: 1fr; }
+  .projects-grid    { grid-template-columns: 1fr; }
+  .lecture-block    { grid-template-columns: 1fr; }
+  .lecture-num-col  { flex-direction: row; padding: 0 0 0 12px; padding-top: 16px; }
+  .timeline::before { display: none; }
+  .contact-footer   { grid-template-columns: 1fr; }
+  .stats-row        { gap: 0; }
+  .stat-item        { min-width: 90px; padding: 18px 12px; }
+  .final-project, .cert-section, .contact-footer { padding: 32px 20px; }
+  .overview-table   { font-size: 0.78rem; }
+  .overview-table th, .overview-table td { padding: 10px 12px; }
+}
+@media (max-width: 480px) {
+  .stats-row { flex-direction: column; }
+  .stat-item::after { display: none; }
+  .cert-details { flex-direction: column; align-items: center; }
+}
+
+/* =============================================
+   SCROLL ANIMATION TRIGGER (CSS-only fallback)
+   ============================================= */
+.lecture-block:nth-child(1)  { animation-delay: 0.05s; }
+.lecture-block:nth-child(2)  { animation-delay: 0.10s; }
+.lecture-block:nth-child(3)  { animation-delay: 0.15s; }
+.lecture-block:nth-child(4)  { animation-delay: 0.20s; }
+.lecture-block:nth-child(5)  { animation-delay: 0.25s; }
+.lecture-block:nth-child(6)  { animation-delay: 0.30s; }
+.lecture-block:nth-child(7)  { animation-delay: 0.35s; }
+.lecture-block:nth-child(8)  { animation-delay: 0.40s; }
+.lecture-block:nth-child(9)  { animation-delay: 0.45s; }
+.lecture-block:nth-child(10) { animation-delay: 0.50s; }
+.lecture-block:nth-child(11) { animation-delay: 0.55s; }
+.lecture-block:nth-child(12) { animation-delay: 0.60s; }
+.lecture-block:nth-child(13) { animation-delay: 0.65s; }
+.lecture-block:nth-child(14) { animation-delay: 0.70s; }
+.lecture-block:nth-child(15) { animation-delay: 0.75s; }
+
+</style>
+</head>
+<body>
+
+<!-- Rainbow progress bar -->
+<div class="rainbow-bar"></div>
+
+<!-- Fixed background -->
+<div class="bg-fixed">
+  <div class="bg-gradient"></div>
+  <div class="bg-dots"></div>
+  <div class="bg-lines"></div>
+</div>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<div class="page">
+
+<section class="hero">
+  <div class="academy-badge">🌟 Sunshine T Academy — كورس الأردوينو</div>
+
+  <div class="hero-logo">🤖</div>
+
+  <div class="level-tag">Arduino Level 2 — المستوى الثاني</div>
+
+  <h1 class="hero-title">
+    <span class="line1">ابنك بيكمل رحلته</span>
+    <span class="line2">في عالم الأردوينو</span>
+  </h1>
+
+  <p class="hero-subtitle">
+    بعد إتمام المستوى الأول بنجاح، جاء وقت الجدّي.
+    <span class="hl">15 محاضرة</span> من المشاريع الحقيقية والمكونات الاحترافية
+    اللي بتحوّل أفكار ابنك لواقع بإيديه هو.
+  </p>
+
+  <div class="stats-row">
+    <div class="stat-item">
+      <span class="stat-num text-gold">15</span>
+      <span class="stat-label">محاضرة متخصصة</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num text-teal">22.5</span>
+      <span class="stat-label">ساعة تدريبية</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num text-blue">12+</span>
+      <span class="stat-label">مكوّن إلكتروني</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num text-purple">5</span>
+      <span class="stat-label">مشاريع متكاملة</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num text-orange">10+</span>
+      <span class="stat-label">سنوات (الفئة العمرية)</span>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>اكتشف المنهج كاملاً</span>
+    <span class="scroll-arrow">⬇</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     PHILOSOPHY
+     ============================================================ -->
+<section>
+  <div class="section-eyebrow gold">💡 فلسفة التعليم</div>
+  <h2 class="section-title">ليه المستوى الثاني مختلف؟</h2>
+  <p class="section-desc">
+    المستوى الأول بنى الأساس. المستوى الثاني بيحوّل الطالب من "بيتعلم" لـ"بيبني".
+    كل محاضرة ليها هدف واضح ومشروع حقيقي الطالب بيخرج بيه في إيده.
+  </p>
+
+  <div class="philosophy-grid">
+    <div class="phil-card">
+      <div class="phil-icon">🔬</div>
+      <div class="phil-title text-gold">نظرية + تطبيق في نفس الوقت</div>
+      <div class="phil-desc">
+        كل محاضرة: المحاضرة الأولى بنشرح المكوّن ونكتب الكود مع بعض.
+        المحاضرة التانية: الطالب بيعمل التوصيلة ويرفع الكود بنفسه على الأردوينو الحقيقي.
+      </div>
+    </div>
+    <div class="phil-card">
+      <div class="phil-icon">🏗️</div>
+      <div class="phil-title text-teal">مشاريع تراكمية</div>
+      <div class="phil-desc">
+        كل مشروع بيبني على اللي قبله.
+        الطالب في نهاية الكورس عنده مشروع نظام أمان منزلي كامل
+        بيجمع كل اللي تعلّمه مع بعض.
+      </div>
+    </div>
+    <div class="phil-card">
+      <div class="phil-icon">🌍</div>
+      <div class="phil-title text-purple">تطبيقات من الحياة الحقيقية</div>
+      <div class="phil-desc">
+        مش مشاريع وهمية — ده بطاقة دخول زي المدرسة،
+        وكمبيوتر طقس حقيقي، وباب أتوماتيك،
+        وعربية بتتحكم فيها بالكود.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     QUICK OVERVIEW TABLE
+     ============================================================ -->
+<section>
+  <div class="section-eyebrow teal">📋 نظرة سريعة</div>
+  <h2 class="section-title">خطة المنهج دفعة واحدة</h2>
+
+  <table class="overview-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>الموضوع</th>
+        <th>المكوّنات</th>
+        <th>النوع</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="lec-num-cell text-gold">01</td>
+        <td><strong>RGB LED + مقاومة متغيرة</strong></td>
+        <td><span class="tag tag-gold">RGB LED</span> <span class="tag tag-blue">Potentiometer</span></td>
+        <td class="lec-type-cell"><span class="practical-badge">نظري</span></td>
+      </tr>
+      <tr>
+        <td class="lec-num-cell text-gold">02</td>
+        <td><strong>مشروع: اللمبة الذكية</strong></td>
+        <td><span class="tag tag-gold">RGB LED</span></td>
+        <td class="lec-type-cell"><span class="project-badge">🛠 تطبيقي</span></td>
+      </tr>
+      <tr>
+        <td class="lec-num-cell text-teal">03</td>
+        <td><strong>Servo Motor — التحكم بالزوايا</strong></td>
+        <td><span class="tag tag-teal">Servo Motor</span></td>
+        <td class="lec-type-cell"><span class="practical-badge">نظري</span></td>
+      </tr>
+      <tr>
+        <td class="lec-num-cell text-teal">04</td>
+        <td><strong>مشروع: الباب الأتوماتيك</strong></td>
+        <td><span class="tag tag-teal">Servo</span> <span class="tag tag-blue">Button</span></td>
+        <td class="lec-type-cell"><span class="project-badge">🛠 تطبيقي</span></td>
+      </tr>
+      <tr>
+        <td class="lec-num-cell text-blue">05</td>
+        <td><strong>DHT11 + Water Sensor</strong></td>
+        <td><span class="tag tag-blue">DHT11</span> <span class="tag tag-cyan">Water Sensor</span></td>
+        <td class="lec-type-cell"><span class="practical-badge">نظري</span></td>
+      </tr>
+      <tr>
+        <td class="lec-num-cell text-blue">06</td>
+        <td><strong>شاشة LCD — الطباعة الحقيقية</strong></td>
+        <td><span class="tag tag-blue">LCD I2C</span></td>
+        <td class="lec-type-cell"><span class="practical-badge">نظري</span></td>
+      </tr>
+      <tr>
+        <td class="lec-num-cell text-cyan">07</td>
+        <td><strong>🌦 مشروع: محطة الطقس الذكية</strong></td>
+        <td><span class="tag tag-blue">DHT11</span> <span class="tag tag-blue">LCD</span> <span class="tag tag-gold">RGB</span></td>
+        <td class="lec-type-cell"><span class="project-badge">⭐ مشروع</span></td>
+      </tr>
+      <tr>
+        <td class="lec-num-cell text-orange">08</td>
+        <td><strong>L298N Motor Driver + DC Motor</strong></td>
+        <td><span class="tag tag-orange">L298N</span> <span class="tag tag-orange">TT Motor</span></td>
+        <td class="lec-type-cell"><span class="practical-badge">نظري</span></td>
+      </tr>
+      <tr>
+        <td class="lec-num-cell text-orange">09</td>
+        <td><strong>مشروع: العربية المتحركة</strong></td>
+        <td><span class="tag tag-orange">L298N</span> <span class="tag tag-orange">2× Motor</span></td>
+        <td class="lec-type-cell"><span class="project-badge">🛠 تطبيقي</span></td>
+      </tr>
+      <tr>
+        <td class="lec-num-cell text-purple">10</td>
+        <td><strong>4×4 Keypad — لوحة الأرقام</strong></td>
+        <td><span class="tag tag-purple">Keypad 4×4</span></td>
+        <td class="lec-type-cell"><span class="practical-badge">نظري</span></td>
+      </tr>
+      <tr>
+        <td class="lec-num-cell text-purple">11</td>
+        <td><strong>🔐 مشروع: القفل الرقمي الذكي</strong></td>
+        <td><span class="tag tag-purple">Keypad</span> <span class="tag tag-teal">Servo</span> <span class="tag tag-blue">LCD</span></td>
+        <td class="lec-type-cell"><span class="project-badge">⭐ مشروع</span></td>
+      </tr>
+      <tr>
+        <td class="lec-num-cell text-pink">12</td>
+        <td><strong>IR Remote Control — التحكم عن بُعد</strong></td>
+        <td><span class="tag tag-pink">IR Remote</span> <span class="tag tag-gold">RGB</span></td>
+        <td class="lec-type-cell"><span class="practical-badge">نظري + تطبيق</span></td>
+      </tr>
+      <tr>
+        <td class="lec-num-cell text-red">13</td>
+        <td><strong>Relay — التحكم في الكهرباء الحقيقية</strong></td>
+        <td><span class="tag tag-red">Relay JQC5</span></td>
+        <td class="lec-type-cell"><span class="practical-badge">نظري + تطبيق</span></td>
+      </tr>
+      <tr>
+        <td class="lec-num-cell text-cyan">14</td>
+        <td><strong>RC522 RFID — بطاقة الدخول الذكية</strong></td>
+        <td><span class="tag tag-cyan">RFID RC522</span> <span class="tag tag-teal">Servo</span></td>
+        <td class="lec-type-cell"><span class="practical-badge">نظري + تطبيق</span></td>
+      </tr>
+      <tr style="background: rgba(245,197,24,0.04);">
+        <td class="lec-num-cell text-gold">15</td>
+        <td><strong>🏠 المشروع النهائي: نظام الأمان الذكي</strong></td>
+        <td><span class="tag tag-cyan">RFID</span> <span class="tag tag-purple">Keypad</span> <span class="tag tag-teal">Servo</span> <span class="tag tag-blue">LCD</span></td>
+        <td class="lec-type-cell"><span class="final-badge">🏆 نهائي</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============================================================
+     DETAILED CURRICULUM
+     ============================================================ -->
+<section>
+  <div class="section-eyebrow purple">📚 المنهج التفصيلي</div>
+  <h2 class="section-title">كل محاضرة في التفاصيل</h2>
+  <p class="section-desc">
+    اتفرج على كل محاضرة، إيه اللي هيتعلمه ابنك، والمهارات اللي هيخرج بيها.
+  </p>
+
+  <div class="timeline">
+
+    <!-- L1 -->
+    <div class="lecture-block lc-gold">
+      <div class="lecture-card">
+        <div class="lec-header">
+          <div class="lec-em">🌈</div>
+          <div class="lec-info">
+            <span class="lec-type text-gold">محاضرة 1 — نظرية</span>
+            <div class="lec-title">RGB LED + المقاومة المتغيرة</div>
+            <div class="lec-subtitle">التحكم في الألوان برمجياً</div>
+          </div>
+        </div>
+        <div class="lec-tags">
+          <span class="tag tag-gold">RGB LED</span>
+          <span class="tag tag-blue">Potentiometer</span>
+          <span class="tag tag-teal">analogWrite()</span>
+        </div>
+        <div class="lec-desc">
+          الطالب بيتعلم إزاي يتحكم في الألوان عن طريق قيم الأحمر والأخضر والأزرق.
+          بيكتب دالة <code style="background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.85em">setColor(r, g, b)</code> وبيستخدم المقاومة المتغيرة للتحكم يدوياً في شدة الضوء.
+          أول درس يفهم فيه الطالب إن هو يقدر يتحكم في أي حاجة بالأرقام.
+        </div>
+        <div class="lec-skills">
+          <span class="skill-pill">analogWrite()</span>
+          <span class="skill-pill">RGB Logic</span>
+          <span class="skill-pill">Custom Functions</span>
+          <span class="skill-pill">PWM Signal</span>
+        </div>
+      </div>
+      <div class="lecture-num-col">
+        <div class="lecture-dot">01</div>
+      </div>
+    </div>
+
+    <!-- L2 -->
+    <div class="lecture-block lc-gold">
+      <div class="lecture-card">
+        <div class="lec-header">
+          <div class="lec-em">💡</div>
+          <div class="lec-info">
+            <span class="lec-type text-teal">محاضرة 2 — تطبيقي 🛠</span>
+            <div class="lec-title">مشروع: اللمبة الذكية</div>
+            <div class="lec-subtitle">الطالب يوصّل ويشغّل بنفسه</div>
+          </div>
+        </div>
+        <div class="lec-tags">
+          <span class="tag tag-gold">RGB LED</span>
+          <span class="tag tag-teal">مشروع تطبيقي</span>
+        </div>
+        <div class="lec-desc">
+          الطالب بيعمل التوصيلة الحقيقية على الـ breadboard وبيرفع الكود بنفسه.
+          المشروع: لمبة بتغير لونها تلقائياً كل ثانية — وبيلاقي ابنك يفرح لما الألوان تبدأ تتغير بإيده!
+        </div>
+        <div class="lec-skills">
+          <span class="skill-pill">Circuit Wiring</span>
+          <span class="skill-pill">Code Upload</span>
+          <span class="skill-pill">Debugging</span>
+        </div>
+      </div>
+      <div class="lecture-num-col">
+        <div class="lecture-dot">02</div>
+      </div>
+    </div>
+
+    <!-- L3 -->
+    <div class="lecture-block lc-teal">
+      <div class="lecture-card">
+        <div class="lec-header">
+          <div class="lec-em">🔧</div>
+          <div class="lec-info">
+            <span class="lec-type text-teal">محاضرة 3 — نظرية</span>
+            <div class="lec-title">Servo Motor — التحكم الدقيق بالزوايا</div>
+            <div class="lec-subtitle">من 0 لـ 180 درجة بالكود</div>
+          </div>
+        </div>
+        <div class="lec-tags">
+          <span class="tag tag-teal">Servo Motor</span>
+          <span class="tag tag-gold">Servo.h Library</span>
+        </div>
+        <div class="lec-desc">
+          بيتعلم الفرق بين الـ DC Motor العشوائي والـ Servo الدقيق.
+          بيستخدم مكتبة <code style="background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.85em">Servo.h</code> وبيكتب أوامر التحكم بالزوايا.
+          تطبيق: حركة يد روبوت تتحرك من 0 لـ 180.
+        </div>
+        <div class="lec-skills">
+          <span class="skill-pill">Servo.h</span>
+          <span class="skill-pill">myServo.write()</span>
+          <span class="skill-pill">Angle Control</span>
+        </div>
+      </div>
+      <div class="lecture-num-col">
+        <div class="lecture-dot">03</div>
+      </div>
+    </div>
+
+    <!-- L4 -->
+    <div class="lecture-block lc-teal">
+      <div class="lecture-card">
+        <div class="lec-header">
+          <div class="lec-em">🚪</div>
+          <div class="lec-info">
+            <span class="lec-type text-orange">محاضرة 4 — تطبيقي ⭐</span>
+            <div class="lec-title">مشروع: الباب الأتوماتيك</div>
+            <div class="lec-subtitle">اضغط — الباب يفتح — تانية يتقفل</div>
+          </div>
+        </div>
+        <div class="lec-tags">
+          <span class="tag tag-teal">Servo Motor</span>
+          <span class="tag tag-blue">Push Button</span>
+          <span class="tag tag-orange">مشروع</span>
+        </div>
+        <div class="lec-desc">
+          مشروع حقيقي ومفيد: باب بيفتح لما تضغط الزرار ويتقفل تلقائياً بعد 3 ثواني.
+          الطالب بيشوف إزاي البرمجة بتتحكم في حاجة فيزيائية حقيقية — وده بيولّع حماسه!
+        </div>
+        <div class="lec-skills">
+          <span class="skill-pill">Button Input</span>
+          <span class="skill-pill">Servo Output</span>
+          <span class="skill-pill">Timing Logic</span>
+        </div>
+      </div>
+      <div class="lecture-num-col">
+        <div class="lecture-dot">04</div>
+      </div>
+    </div>
+
+    <!-- L5 -->
+    <div class="lecture-block lc-blue">
+      <div class="lecture-card">
+        <div class="lec-header">
+          <div class="lec-em">🌡️</div>
+          <div class="lec-info">
+            <span class="lec-type text-blue">محاضرة 5 — نظرية</span>
+            <div class="lec-title">DHT11 + Water Sensor — حساسات البيئة</div>
+            <div class="lec-subtitle">قياس الحرارة والرطوبة والمياه</div>
+          </div>
+        </div>
+        <div class="lec-tags">
+          <span class="tag tag-blue">DHT11</span>
+          <span class="tag tag-cyan">Water Sensor</span>
+          <span class="tag tag-teal">DHT.h Library</span>
+        </div>
+        <div class="lec-desc">
+          الطالب بيتعرف على حساسات البيئة — إزاي الأردوينو يقدر يحس بالحرارة والرطوبة والمياه.
+          بيستخدم مكتبة <code style="background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.85em">DHT.h</code> وبيشوف القيم على الـ Serial Monitor.
+        </div>
+        <div class="lec-skills">
+          <span class="skill-pill">DHT.h</span>
+          <span class="skill-pill">readTemperature()</span>
+          <span class="skill-pill">readHumidity()</span>
+          <span class="skill-pill">analogRead()</span>
+        </div>
+      </div>
+      <div class="lecture-num-col">
+        <div class="lecture-dot">05</div>
+      </div>
+    </div>
+
+    <!-- L6 -->
+    <div class="lecture-block lc-blue">
+      <div class="lecture-card">
+        <div class="lec-header">
+          <div class="lec-em">🖥️</div>
+          <div class="lec-info">
+            <span class="lec-type text-blue">محاضرة 6 — نظرية</span>
+            <div class="lec-title">شاشة LCD — الطباعة على شاشة حقيقية</div>
+            <div class="lec-subtitle">الأردوينو بيتكلم مع الطالب!</div>
+          </div>
+        </div>
+        <div class="lec-tags">
+          <span class="tag tag-blue">LCD 16×2</span>
+          <span class="tag tag-cyan">I2C Module</span>
+          <span class="tag tag-purple">LiquidCrystal_I2C.h</span>
+        </div>
+        <div class="lec-desc">
+          من أمتع المحاضرات! الطالب بيشوف كلامه يظهر على شاشة حقيقية.
+          بيستخدم توصيل I2C البسيط (4 أسلاك بس) وبيتعلم تحديد الموضع على الشاشة.
+          التطبيق: طباعة اسمه على الـ LCD!
+        </div>
+        <div class="lec-skills">
+          <span class="skill-pill">LiquidCrystal_I2C.h</span>
+          <span class="skill-pill">lcd.print()</span>
+          <span class="skill-pill">lcd.setCursor()</span>
+          <span class="skill-pill">I2C Protocol</span>
+        </div>
+      </div>
+      <div class="lecture-num-col">
+        <div class="lecture-dot">06</div>
+      </div>
+    </div>
+
+    <!-- L7 -->
+    <div class="lecture-block lc-cyan">
+      <div class="lecture-card">
+        <div class="lec-header">
+          <div class="lec-em">🌦️</div>
+          <div class="lec-info">
+            <span class="lec-type text-orange">محاضرة 7 — مشروع متكامل ⭐⭐</span>
+            <div class="lec-title">مشروع: محطة الطقس الذكية</div>
+            <div class="lec-subtitle">أكبر مشروع لغاية دلوقتي في المنهج</div>
+          </div>
+        </div>
+        <div class="lec-tags">
+          <span class="tag tag-blue">DHT11</span>
+          <span class="tag tag-blue">LCD</span>
+          <span class="tag tag-gold">RGB LED</span>
+          <span class="tag tag-cyan">Water Sensor</span>
+          <span class="tag tag-orange">مشروع نهائي</span>
+        </div>
+        <div class="lec-desc">
+          المشروع الكبير الأول! الطالب بيجمع كل اللي تعلّمه:
+          الـ LCD بيعرض درجة الحرارة والرطوبة، والـ RGB بتغير لونها حسب الحرارة
+          (أخضر = عادي، أحمر = حار، أزرق = بارد)، وحساس المياه بيشوف لو في مطر.
+          ده مشروع يتصوّر!
+        </div>
+        <div class="lec-skills">
+          <span class="skill-pill">Multi-Component</span>
+          <span class="skill-pill">Conditions</span>
+          <span class="skill-pill">Data Display</span>
+          <span class="skill-pill">Smart Logic</span>
+        </div>
+      </div>
+      <div class="lecture-num-col">
+        <div class="lecture-dot">07</div>
+      </div>
+    </div>
+
+    <!-- L8 -->
+    <div class="lecture-block lc-orange">
+      <div class="lecture-card">
+        <div class="lec-header">
+          <div class="lec-em">⚙️</div>
+          <div class="lec-info">
+            <span class="lec-type text-orange">محاضرة 8 — نظرية</span>
+            <div class="lec-title">L298N Motor Driver + DC Motor</div>
+            <div class="lec-subtitle">تحريك الموتورات بسرعة واتجاه</div>
+          </div>
+        </div>
+        <div class="lec-tags">
+          <span class="tag tag-orange">L298N Driver</span>
+          <span class="tag tag-orange">TT DC Motor</span>
+          <span class="tag tag-gold">Speed Control</span>
+        </div>
+        <div class="lec-desc">
+          ليه الأردوينو مش بيقدر يشغّل الموتور مباشرة وليه محتاجين Motor Driver.
+          الطالب بيتعلم التحكم في السرعة بـ <code style="background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.85em">analogWrite()</code>
+          والاتجاه بـ <code style="background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.85em">digitalWrite()</code>.
+        </div>
+        <div class="lec-skills">
+          <span class="skill-pill">L298N Wiring</span>
+          <span class="skill-pill">Motor Direction</span>
+          <span class="skill-pill">Speed via PWM</span>
+        </div>
+      </div>
+      <div class="lecture-num-col">
+        <div class="lecture-dot">08</div>
+      </div>
+    </div>
+
+    <!-- L9 -->
+    <div class="lecture-block lc-orange">
+      <div class="lecture-card">
+        <div class="lec-header">
+          <div class="lec-em">🚗</div>
+          <div class="lec-info">
+            <span class="lec-type text-orange">محاضرة 9 — تطبيقي 🛠</span>
+            <div class="lec-title">مشروع: العربية المتحركة</div>
+            <div class="lec-subtitle">موتورين — يمين وشمال بالكود</div>
+          </div>
+        </div>
+        <div class="lec-tags">
+          <span class="tag tag-orange">L298N</span>
+          <span class="tag tag-orange">2× TT Motor</span>
+          <span class="tag tag-teal">Motion Control</span>
+        </div>
+        <div class="lec-desc">
+          عربية بموتورين بتتحرك بالكود — قدام وورا ويمين وشمال.
+          الطالب بيكتب برنامج كامل يخلي العربية تعمل حركات محددة.
+          ده بيمهّد للروبوتيكس في المستوى الجاي!
+        </div>
+        <div class="lec-skills">
+          <span class="skill-pill">Dual Motor</span>
+          <span class="skill-pill">Turn Logic</span>
+          <span class="skill-pill">Robotics Basics</span>
+        </div>
+      </div>
+      <div class="lecture-num-col">
+        <div class="lecture-dot">09</div>
+      </div>
+    </div>
+
+    <!-- L10 -->
+    <div class="lecture-block lc-purple">
+      <div class="lecture-card">
+        <div class="lec-header">
+          <div class="lec-em">⌨️</div>
+          <div class="lec-info">
+            <span class="lec-type text-purple">محاضرة 10 — نظرية</span>
+            <div class="lec-title">4×4 Keypad — لوحة المفاتيح الكاملة</div>
+            <div class="lec-subtitle">كيبورد حقيقي للأردوينو</div>
+          </div>
+        </div>
+        <div class="lec-tags">
+          <span class="tag tag-purple">4×4 Keypad</span>
+          <span class="tag tag-blue">Keypad.h</span>
+          <span class="tag tag-teal">Matrix Logic</span>
+        </div>
+        <div class="lec-desc">
+          الطالب بيتعلم إزاي لوحة 16 زرار بتشتغل على 8 أسلاك بس عن طريق منطق الصفوف والأعمدة.
+          بيستخدم مكتبة <code style="background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.85em">Keypad.h</code> وبيقرأ أي زرار اتضغط.
+          التطبيق: آلة حاسبة بسيطة!
+        </div>
+        <div class="lec-skills">
+          <span class="skill-pill">Keypad.h</span>
+          <span class="skill-pill">getKey()</span>
+          <span class="skill-pill">Matrix Scan</span>
+        </div>
+      </div>
+      <div class="lecture-num-col">
+        <div class="lecture-dot">10</div>
+      </div>
+    </div>
+
+    <!-- L11 -->
+    <div class="lecture-block lc-purple">
+      <div class="lecture-card">
+        <div class="lec-header">
+          <div class="lec-em">🔐</div>
+          <div class="lec-info">
+            <span class="lec-type text-orange">محاضرة 11 — مشروع متكامل ⭐⭐</span>
+            <div class="lec-title">مشروع: القفل الرقمي الذكي</div>
+            <div class="lec-subtitle">أدخل الكود الصح — الباب يفتح!</div>
+          </div>
+        </div>
+        <div class="lec-tags">
+          <span class="tag tag-purple">Keypad</span>
+          <span class="tag tag-teal">Servo</span>
+          <span class="tag tag-blue">LCD</span>
+          <span class="tag tag-gold">Buzzer</span>
+          <span class="tag tag-orange">مشروع نهائي</span>
+        </div>
+        <div class="lec-desc">
+          أجمل مشروع في المنهج للأطفال! الطالب يبرمج قفل رقمي حقيقي:
+          يدخل كود على الـ Keypad، الـ LCD يعرض "✓ صح" أو "✗ خطأ"،
+          الـ Servo يفتح الباب لو الكود صح، والـ Buzzer يصوّت.
+          ده بيشبه بالظبط قفل غرفة الفندق!
+        </div>
+        <div class="lec-skills">
+          <span class="skill-pill">Password Logic</span>
+          <span class="skill-pill">String Compare</span>
+          <span class="skill-pill">Multi-Output</span>
+        </div>
+      </div>
+      <div class="lecture-num-col">
+        <div class="lecture-dot">11</div>
+      </div>
+    </div>
+
+    <!-- L12 -->
+    <div class="lecture-block lc-pink">
+      <div class="lecture-card">
+        <div class="lec-header">
+          <div class="lec-em">📡</div>
+          <div class="lec-info">
+            <span class="lec-type text-pink">محاضرة 12 — نظري + تطبيقي</span>
+            <div class="lec-title">IR Remote — التحكم من بُعد بالأشعة تحت الحمراء</div>
+            <div class="lec-subtitle">زي الريموت بتاع التلفزيون بالظبط!</div>
+          </div>
+        </div>
+        <div class="lec-tags">
+          <span class="tag tag-pink">IR Remote 21-Key</span>
+          <span class="tag tag-blue">IRremote.h</span>
+          <span class="tag tag-gold">RGB Control</span>
+        </div>
+        <div class="lec-desc">
+          الطالب يتحكم في الـ RGB LED بالريموت من بعيد!
+          بيتعلم إزاي كل زرار بيبعث كود مختلف وإزاي الأردوينو يستقبله.
+          تطبيق ممتع ومرئي — ابنك هيتفخر يورّيه لكل الأهل!
+        </div>
+        <div class="lec-skills">
+          <span class="skill-pill">IRremote.h</span>
+          <span class="skill-pill">IR Decode</span>
+          <span class="skill-pill">Switch-Case</span>
+        </div>
+      </div>
+      <div class="lecture-num-col">
+        <div class="lecture-dot">12</div>
+      </div>
+    </div>
+
+    <!-- L13 -->
+    <div class="lecture-block lc-red">
+      <div class="lecture-card">
+        <div class="lec-header">
+          <div class="lec-em">⚡</div>
+          <div class="lec-info">
+            <span class="lec-type text-red">محاضرة 13 — نظري + تطبيقي</span>
+            <div class="lec-title">Relay — التحكم في الكهرباء الحقيقية</div>
+            <div class="lec-subtitle">الأردوينو يوصّل ويقطع الكهرباء</div>
+          </div>
+        </div>
+        <div class="lec-tags">
+          <span class="tag tag-red">Relay JQC5</span>
+          <span class="tag tag-orange">Smart Home</span>
+          <span class="tag tag-gold">Safety First ⚠️</span>
+        </div>
+        <div class="lec-desc">
+          من أهم المحاضرات عملياً! الطالب بيتعلم إزاي الـ Relay بيخلّي الأردوينو
+          يتحكم في أجهزة الكهرباء الحقيقية (مروحة أو لمبة).
+          مع شرح مهم جداً عن قواعد السلامة الكهربائية.
+        </div>
+        <div class="lec-skills">
+          <span class="skill-pill">Relay Control</span>
+          <span class="skill-pill">Low/High Voltage</span>
+          <span class="skill-pill">Electrical Safety</span>
+        </div>
+      </div>
+      <div class="lecture-num-col">
+        <div class="lecture-dot">13</div>
+      </div>
+    </div>
+
+    <!-- L14 -->
+    <div class="lecture-block lc-cyan">
+      <div class="lecture-card">
+        <div class="lec-header">
+          <div class="lec-em">💳</div>
+          <div class="lec-info">
+            <span class="lec-type text-cyan">محاضرة 14 — نظري + تطبيقي</span>
+            <div class="lec-title">RC522 RFID — بطاقة الدخول الذكية</div>
+            <div class="lec-subtitle">زي بطاقة المدرسة والمحلات!</div>
+          </div>
+        </div>
+        <div class="lec-tags">
+          <span class="tag tag-cyan">RFID RC522</span>
+          <span class="tag tag-teal">MFRC522.h</span>
+          <span class="tag tag-purple">NFC Technology</span>
+        </div>
+        <div class="lec-desc">
+          تقنية مذهلة! الطالب يبرمج بطاقة دخول ذكية — يمرّر الكارت والباب يفتح.
+          بيتعلم إزاي كل بطاقة ليها ID فريد ومميز وإزاي يقراه ويستخدمه.
+          التطبيق: بطاقة تفتح الـ Servo (الباب).
+        </div>
+        <div class="lec-skills">
+          <span class="skill-pill">MFRC522.h</span>
+          <span class="skill-pill">RFID Read</span>
+          <span class="skill-pill">UID Matching</span>
+          <span class="skill-pill">SPI Protocol</span>
+        </div>
+      </div>
+      <div class="lecture-num-col">
+        <div class="lecture-dot">14</div>
+      </div>
+    </div>
+
+    <!-- L15 FINAL -->
+    <div class="lecture-block lc-gold">
+      <div class="lecture-card" style="border-color: rgba(245,197,24,0.3); background: linear-gradient(135deg, rgba(26,34,53,0.9), rgba(17,24,39,0.9));">
+        <div class="lec-header">
+          <div class="lec-em">🏠</div>
+          <div class="lec-info">
+            <span class="lec-type text-gold">محاضرة 15 — المشروع النهائي 🏆</span>
+            <div class="lec-title">نظام الأمان المنزلي الذكي</div>
+            <div class="lec-subtitle">كل حاجة اتعلمها الطالب في مشروع واحد ضخم</div>
+          </div>
+        </div>
+        <div class="lec-tags">
+          <span class="tag tag-cyan">RFID</span>
+          <span class="tag tag-purple">Keypad</span>
+          <span class="tag tag-teal">Servo</span>
+          <span class="tag tag-blue">LCD</span>
+          <span class="tag tag-gold">Buzzer</span>
+          <span class="tag tag-blue">DHT11</span>
+          <span class="tag tag-orange">🏆 نهائي</span>
+        </div>
+        <div class="lec-desc">
+          التاج! الطالب بيبني نظام أمان منزلي متكامل:
+          يدخل بالبطاقة الذكية أو بكود الـ Keypad،
+          الباب بيفتح بالـ Servo، الـ LCD بيعرض "أهلاً [اسمك]"،
+          الـ DHT11 بيعرض درجة الحرارة، والـ Buzzer للإنذار لو الكود غلط.
+          ده المشروع اللي بيتصوّر ويتبعت للأهل في شهادة الإتمام.
+        </div>
+        <div class="lec-skills">
+          <span class="skill-pill">System Integration</span>
+          <span class="skill-pill">Multiple Inputs</span>
+          <span class="skill-pill">Multiple Outputs</span>
+          <span class="skill-pill">Smart Logic</span>
+          <span class="skill-pill">Real IoT Concept</span>
+        </div>
+      </div>
+      <div class="lecture-num-col">
+        <div class="lecture-dot" style="background: var(--gold); color: #0a0e1a; border-color: var(--gold);">15</div>
+      </div>
+    </div>
+
+  </div><!-- end timeline -->
+</section>
+
+<!-- ============================================================
+     FEATURED PROJECTS
+     ============================================================ -->
+<section>
+  <div class="section-eyebrow orange">🏆 أبرز المشاريع</div>
+  <h2 class="section-title">مشاريع ابنك في المستوى الثاني</h2>
+  <p class="section-desc">مش مجرد تمارين — دي مشاريع حقيقية يتفخر بيها ابنك أمام أصحابه وأهله.</p>
+
+  <div class="projects-grid">
+    <div class="project-card">
+      <span class="project-em">🌦️</span>
+      <div class="project-title">محطة الطقس الذكية</div>
+      <div class="project-desc">بيعرض درجة الحرارة والرطوبة على LCD وبيغير لون LED حسب الجو</div>
+      <div class="project-components">
+        <span class="pc tag-blue">DHT11</span>
+        <span class="pc tag-blue">LCD</span>
+        <span class="pc tag-gold">RGB</span>
+        <span class="pc tag-cyan">Water</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <span class="project-em">🔐</span>
+      <div class="project-title">القفل الرقمي الذكي</div>
+      <div class="project-desc">أدخل الكود الصح والباب يفتح — الكود الغلط والإنذار يصوّت</div>
+      <div class="project-components">
+        <span class="pc tag-purple">Keypad</span>
+        <span class="pc tag-teal">Servo</span>
+        <span class="pc tag-blue">LCD</span>
+        <span class="pc tag-gold">Buzzer</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <span class="project-em">🏠</span>
+      <div class="project-title">نظام الأمان المنزلي</div>
+      <div class="project-desc">دخول ببطاقة ذكية أو كود، باب أتوماتيك، شاشة، وإنذار</div>
+      <div class="project-components">
+        <span class="pc tag-cyan">RFID</span>
+        <span class="pc tag-purple">Keypad</span>
+        <span class="pc tag-teal">Servo</span>
+        <span class="pc tag-blue">LCD</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FINAL PROJECT FULL
+     ============================================================ -->
+<div class="final-project">
+  <div class="fp-label">🏆 المشروع النهائي — محاضرة 15</div>
+  <div class="fp-title">نظام الأمان المنزلي الذكي</div>
+  <div class="fp-subtitle">أضخم مشروع — يجمع كل المستوى الثاني في حاجة واحدة</div>
+
+  <div class="fp-components">
+    <div class="fp-comp"><span>💳</span> RFID Card Reader</div>
+    <div class="fp-comp"><span>⌨️</span> 4×4 Keypad</div>
+    <div class="fp-comp"><span>🚪</span> Servo Motor</div>
+    <div class="fp-comp"><span>🖥️</span> LCD Display</div>
+    <div class="fp-comp"><span>🔔</span> Buzzer</div>
+    <div class="fp-comp"><span>🌡️</span> DHT11 Sensor</div>
+  </div>
+
+  <div class="fp-desc">
+    الطالب بيبني نظام دخول ذكي كامل:
+    ممكن يدخل بالبطاقة الذكية أو بكود الـ Keypad.
+    الشاشة بتعرض "أهلاً [الاسم]" لما الدخول صح،
+    والباب بيفتح بالـ Servo Motor.
+    لو الكود غلط، البزر بيصوّت إنذار.
+    ودايماً فيه درجة الحرارة شغّالة في الخلفية.
+    <br><br>
+    <strong style="color: var(--gold);">ده بالظبط زي أنظمة الأمان في الفنادق والشركات الحقيقية.</strong>
+  </div>
+</div>
+
+<!-- ============================================================
+     SKILLS GAINED
+     ============================================================ -->
+<section>
+  <div class="section-eyebrow green">🧠 المهارات المكتسبة</div>
+  <h2 class="section-title">ابنك هيخرج من الكورس ده بإيه؟</h2>
+
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-icon-wrap">⚡</div>
+      <div>
+        <div class="skill-title text-gold">مهارات إلكترونية</div>
+        <ul class="skill-list">
+          <li>توصيل دوائر إلكترونية معقدة</li>
+          <li>فهم Motor Drivers والـ Relays</li>
+          <li>التعامل مع حساسات متعددة</li>
+          <li>قراءة Datasheets بسيطة</li>
+        </ul>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon-wrap">💻</div>
+      <div>
+        <div class="skill-title text-teal">مهارات برمجية</div>
+        <ul class="skill-list">
+          <li>استخدام المكتبات الجاهزة</li>
+          <li>كتابة دوال متخصصة</li>
+          <li>منطق الشروط والتكرار المتقدم</li>
+          <li>التعامل مع Strings والمقارنات</li>
+        </ul>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon-wrap">🤖</div>
+      <div>
+        <div class="skill-title text-blue">مهارات الروبوتيكس</div>
+        <ul class="skill-list">
+          <li>التحكم في الموتورات والسرفو</li>
+          <li>بناء عربية متحركة</li>
+          <li>مفاهيم الأنظمة الأتوماتيكية</li>
+          <li>دمج مكونات متعددة مع بعض</li>
+        </ul>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon-wrap">🔐</div>
+      <div>
+        <div class="skill-title text-purple">مهارات الأنظمة الذكية</div>
+        <ul class="skill-list">
+          <li>بناء أنظمة دخول وأمان</li>
+          <li>تقنية RFID والبطاقات الذكية</li>
+          <li>التحكم عن بُعد بالـ IR</li>
+          <li>مفاهيم Smart Home أساسية</li>
+        </ul>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon-wrap">🧩</div>
+      <div>
+        <div class="skill-title text-orange">مهارات تفكير وحل مشكلات</div>
+        <ul class="skill-list">
+          <li>تصميم مشاريع من الصفر</li>
+          <li>اكتشاف الأخطاء وتصليحها</li>
+          <li>التفكير المنطقي الهندسي</li>
+          <li>دمج حلول متعددة في نظام واحد</li>
+        </ul>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon-wrap">🌟</div>
+      <div>
+        <div class="skill-title text-pink">مهارات شخصية</div>
+        <ul class="skill-list">
+          <li>الثقة بالنفس في التكنولوجيا</li>
+          <li>العمل بدقة وصبر</li>
+          <li>تقديم مشاريع للآخرين</li>
+          <li>الإبداع في تطوير الأفكار</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CERTIFICATE
+     ============================================================ -->
+<section>
+  <div class="cert-section">
+    <span class="cert-icon">🎓</span>
+    <h2 class="cert-title text-gold">شهادة إتمام المستوى الثاني</h2>
+    <p class="cert-desc">
+      بعد إتمام الـ 15 محاضرة وتقديم المشروع النهائي بنجاح،
+      ابنك بيحصل على شهادة رسمية معتمدة من Sunshine T Academy
+      تثبت إتقانه لكورس الأردوينو Level 2.
+    </p>
+    <div class="cert-details">
+      <div class="cert-detail">
+        <div class="cert-d-label">اسم الكورس</div>
+        <div class="cert-d-val">Arduino Level 2</div>
+      </div>
+      <div class="cert-detail">
+        <div class="cert-d-label">عدد المحاضرات</div>
+        <div class="cert-d-val">15 محاضرة</div>
+      </div>
+      <div class="cert-detail">
+        <div class="cert-d-label">ساعات تدريبية</div>
+        <div class="cert-d-val">22.5 ساعة</div>
+      </div>
+      <div class="cert-detail">
+        <div class="cert-d-label">المستوى الكلي</div>
+        <div class="cert-d-val">45 ساعة (L1+L2)</div>
+      </div>
+    </div>
+    <p style="font-size:0.85rem; color: var(--muted);">
+      💡 الطلاب اللي أكملوا المستوى الأول والثاني مع بعض بيحصلوا على شهادة إتمام الكورس الكامل بـ 45 ساعة تدريبية.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT FOOTER
+     ============================================================ -->
+<section>
+  <div class="contact-footer">
+    <div>
+      <div class="cf-title">ابدأ مع ابنك دلوقتي 🚀</div>
+      <p class="cf-sub">
+        للتسجيل أو أي استفسار عن المنهج أو المواعيد،
+        تواصل معنا على واتساب أو فيسبوك.
+        إحنا هنا نساعدك تاخد القرار الصح لابنك.
+      </p>
+      <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem;color:var(--muted);">
+          <span>🗓️</span> <span>مواعيد مرنة — صباح ومساء</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem;color:var(--muted);">
+          <span>👫</span> <span>فصل تام — ولاد وبنات منفصلين</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem;color:var(--muted);">
+          <span>💳</span> <span>تقسيط مريح متاح</span>
+        </div>
+      </div>
+    </div>
+    <div class="cf-contacts">
+      <a href="https://wa.me/201080680930" class="cf-contact wa" target="_blank">
+        <span>📲</span> واتساب: 01080680930
+      </a>
+      <a href="https://www.facebook.com/share/1CoHWu8fmf/" class="cf-contact fb" target="_blank">
+        <span>📘</span> Sunshine T Academy
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- BOTTOM TAG -->
+<div style="text-align:center; padding: 32px 0 16px; font-size:0.78rem; color: var(--muted);">
+  <span style="color:var(--gold); font-weight:700">Sunshine T Academy</span> — بنحوّل الحلم لكود 🌟
+  <br>
+  <span style="font-family:'JetBrains Mono',monospace; font-size:0.72rem; opacity:0.5; margin-top:4px; display:block;">
+    Arduino Level 2 Curriculum — 2025 / 2026
+  </span>
+</div>
+
+</div><!-- end page -->
+
+<script>
+// Intersection Observer for scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateX(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.lecture-block').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateX(30px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(el);
+});
+
+document.querySelectorAll('.phil-card, .skill-card, .project-card').forEach((el, i) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = `opacity 0.5s ease ${i * 0.1}s, transform 0.5s ease ${i * 0.1}s`;
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>
